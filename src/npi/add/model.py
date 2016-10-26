@@ -254,7 +254,7 @@ class AdditionNPIModel(NPIStep):
 
                 for i, (x, y, w) in enumerate(zip(xs, ys, ws)):
                     loss = self.model.train_on_batch(x, y, sample_weight=w)
-                    if not np.isfinite(loss):
+                    if not np.isfinite(loss.all()):
                         print("Loss is not finite!, Last Input=%s" % ([i, (x, y, w)]))
                         self.print_weights(last_weights, detail=True)
                         raise RuntimeError("Loss is not finite!")
