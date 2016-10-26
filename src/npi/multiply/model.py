@@ -130,6 +130,8 @@ class MultiplicationNPIModel(NPIStep):
 
         self.update_learning_rate(0.0001)
 
+        ##### step by step training
+
         # q_type = "training questions of a+b < 10"
         # print(q_type)
         # pr = 0.8
@@ -189,7 +191,7 @@ class MultiplicationNPIModel(NPIStep):
         return True
 
     def test_to_subset(self, questions):
-        addition_env = MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH)
+        multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH)
         teacher = MultiplicationTeacher(self.program_set)
         npi_runner = TerminalNPIRunner(None, self)
         teacher_runner = TerminalNPIRunner(None, teacher)
@@ -197,10 +199,10 @@ class MultiplicationNPIModel(NPIStep):
         wrong_steps_list = []
         for idx, question in enumerate(questions):
             question = copy(question)
-            if self.question_test(addition_env, npi_runner, question):
+            if self.question_test(multiplication_env, npi_runner, question):
                 correct_count += 1
             else:
-                self.question_test(addition_env, teacher_runner, question)
+                self.question_test(multiplication_env, teacher_runner, question)
                 wrong_steps_list.append({"q": question, "steps": teacher_runner.step_list})
                 wrong_count += 1
         return correct_count, wrong_count, wrong_steps_list
@@ -210,7 +212,7 @@ class MultiplicationNPIModel(NPIStep):
         return str(tuple([(k, d[k]) for k in sorted(d)]))
 
     def do_learn(self, steps_list, epoch, pass_rate=1.0, skip_correct=False):
-        addition_env = MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH)
+        multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH)
         npi_runner = TerminalNPIRunner(None, self)
         last_weights = None
         correct_count = Counter()
@@ -224,7 +226,7 @@ class MultiplicationNPIModel(NPIStep):
             for idx, steps_dict in enumerate(steps_list):
                 question = copy(steps_dict['q'])
                 question_key = self.dict_to_str(question)
-                if self.question_test(addition_env, npi_runner, question):
+                if self.question_test(multiplication_env, npi_runner, question):
                     if correct_count[question_key] == 0:
                         correct_new += 1
                     correct_count[question_key] += 1
@@ -254,10 +256,10 @@ class MultiplicationNPIModel(NPIStep):
 
                 for i, (x, y, w) in enumerate(zip(xs, ys, ws)):
                     loss = self.model.train_on_batch(x, y, sample_weight=w)
-                    if not np.isfinite(loss.all()): # errors here
-                        print("Loss is not finite!, Last Input=%s" % ([i, (x, y, w)]))
-                        self.print_weights(last_weights, detail=True)
-                        raise RuntimeError("Loss is not finite!")
+                    # if not np.isfinite(loss.all()): # errors here
+                    #     print("Loss is not finite!, Last Input=%s" % ([i, (x, y, w)]))
+                    #     self.print_weights(last_weights, detail=True)
+                    #     raise RuntimeError("Loss is not finite!")
                     losses.append(loss)
                     last_weights = self.model.get_weights()
             if losses:
@@ -285,6 +287,7 @@ class MultiplicationNPIModel(NPIStep):
         self.compile_model(learning_rate, arg_weight=arg_weight)
 
     def train_f_enc(self, steps_list, epoch=50):
+        ##### what's add0 and add1?
         print("training f_enc")
         f_add0 = Sequential(name='f_add0')
         f_add0.add(self.f_enc)
@@ -296,15 +299,15 @@ class MultiplicationNPIModel(NPIStep):
         f_add1.add(Dense(FIELD_DEPTH))
         f_add1.add(Activation('softmax', name='softmax_add1'))
 
+        f_mul0 = Sequential(name='f_mul0')
+        f_mul0.add(self.f_enc)
+        f_mul0.add(Dense(FIELD_DEPTH))
+        f_mul0.add(Activation('softmax', name='softmax_mul0'))
+
         f_mul1 = Sequential(name='f_mul1')
         f_mul1.add(self.f_enc)
         f_mul1.add(Dense(FIELD_DEPTH))
-        f_mul1.add(Activation('softmax', name='softmax_add1'))
-
-        f_mul2 = Sequential(name='f_mul2')
-        f_mul2.add(self.f_enc)
-        f_mul2.add(Dense(FIELD_DEPTH))
-        f_mul2.add(Activation('softmax', name='softmax_add1'))
+        f_mul1.add(Activation('softmax', name='softmax_mul1'))
 
         env_model = Model(self.f_enc.inputs, [f_add0.output, f_add1.output], name="env_model")
         env_model.compile(optimizer='adam', loss=['categorical_crossentropy']*2)
@@ -314,31 +317,35 @@ class MultiplicationNPIModel(NPIStep):
             for idx, steps_dict in enumerate(steps_list):
                 prev = None
                 for step in steps_dict['steps']:
+                    # step.input = env + program + argument
                     x = self.convert_input(step.input)[:2]
-                    env_values = step.input.env.reshape((4, -1))
+                    env_values = step.input.env.reshape((6, -1))
                     # ??
                     in1 = np.clip(env_values[0].argmax() - 1, 0, 9)
                     in2 = np.clip(env_values[1].argmax() - 1, 0, 9)
                     carry = np.clip(env_values[2].argmax() - 1, 0, 9)
                     y_num = in1 + in2 + carry
+                    mul1 = np.clip(env_values[4].argmax() - 1, 0, 9)
+                    mul2 = np.clip(env_values[5].argmax() - 1, 0, 9)
                     now = (in1, in2, carry)
                     if prev == now # ??
                         continue
                     prev = now
-                    y0 = to_one_hot_array((y_num %  10)+1, FIELD_DEPTH)
-                    y1 = to_one_hot_array((y_num // 10)+1, FIELD_DEPTH)
+                    y0 = to_one_hot_array((y_num %  10)+1, 4)
+                    y1 = to_one_hot_array((y_num // 10)+1, 4)
                     y = [yy.reshape((self.batch_size, -1)) for yy in [y0, y1]]
                     loss = env_model.train_on_batch(x, y)
                     losses.append(loss)
-            print("ep %3d: loss=%s" % (ep, np.average(losses)))
+            print("in train_f_enc: ep %3d: loss=%s" % (ep, np.average(losses)))
             if np.average(losses) < 1e-06:
                 break
 
-    def question_test(self, addition_env, npi_runner, question):
-        addition_env.reset()
+    def question_test(self, multiplication_env, npi_runner, question):
+        multiplication_env.reset()
         self.reset()
         try:
-            run_npi(addition_env, npi_runner, self.program_set.ADD, question)
+            ## TODO
+            run_npi(multiplication_env, npi_runner, self.program_set.MUL, question)
             if question['correct']:
                 return True
         except StopIteration:
