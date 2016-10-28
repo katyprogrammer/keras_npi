@@ -3,6 +3,10 @@ About
 
 Implementation of [Neural Programmer-Interpreters](http://arxiv.org/abs/1511.06279) with Keras.
 
+based on mokemokechicken work.
+
+multiplication task work in progress
+
 How to Demo
 ===========
 
