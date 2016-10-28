@@ -1,7 +1,7 @@
 #!/bin/sh
 
 THIS_DIR=$(cd $(dirname $0); pwd)
-DATA_DIR=${THIS_DIR}/../data
+DATA_DIR=${THIS_DIR}/../data/addition
 TRAIN_DATA=${1:-${DATA_DIR}/train.pkl}
 MODEL_OUTPUT=${2:-${DATA_DIR}/addition.model}
 
@@ -14,4 +14,3 @@ mkdir -p "$DATA_DIR"
 
 echo python npi/add/training_model.py "$TRAIN_DATA" "$MODEL_OUTPUT"
 time python npi/add/training_model.py "$TRAIN_DATA" "$MODEL_OUTPUT"
-

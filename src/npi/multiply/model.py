@@ -49,7 +49,7 @@ class MultiplicationNPIModel(NPIStep):
 
         f_enc = Sequential(name='f_enc')
         f_enc.add(Merge([input_enc, input_arg], mode='concat'))
-        f_enc.add(MaxoutDense(128, nb_feature=4))
+        f_enc.add(MaxoutDense(128, nb_feature=FIELD_ROW))
         self.f_enc = f_enc
 
         program_embedding = Sequential(name='program_embedding')
@@ -87,7 +87,7 @@ class MultiplicationNPIModel(NPIStep):
             f_arg.add(Dense(IntegerArguments.depth, W_regularizer=l2(0.0001)))
             f_arg.add(Activation('softmax', name='softmax_arg%s' % ai))
             f_args.append(f_arg)
-        sudoplot(f_arg, to_file='f_arg.png', show_shapes=True)
+        plot(f_arg, to_file='f_arg.png', show_shapes=True)
 
         self.model = Model([input_enc.input, input_arg.input, input_prg.input],
                            [f_end.output, f_prog.output] + [fa.output for fa in f_args],
@@ -119,7 +119,7 @@ class MultiplicationNPIModel(NPIStep):
             sub_steps_list = []
             for steps_dict in steps_list:
                 question = steps_dict['q']
-                if condition_func(question['in1'], question['in2']):
+                if condition_func(question['mul1'], question['mul2']):
                     sub_steps_list.append(steps_dict)
             return sub_steps_list
 
@@ -132,23 +132,24 @@ class MultiplicationNPIModel(NPIStep):
 
         ##### step by step training
 
-        # q_type = "training questions of a+b < 10"
-        # print(q_type)
-        # pr = 0.8
-        # all_ok = self.fit_to_subset(filter_question(lambda a, b: a+b < 10), pass_rate=pr)
-        # print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
-        #
-        # q_type = "training questions of a<10 and b< 10 and 10 <= a+b"
-        # print(q_type)
-        # pr = 0.8
-        # all_ok = self.fit_to_subset(filter_question(lambda a, b: a<10 and b<10 and a + b >= 10), pass_rate=pr)
-        # print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
-        #
-        # q_type = "training questions of a<10 and b<10"
-        # print(q_type)
-        # pr = 0.8
-        # all_ok = self.fit_to_subset(filter_question(lambda a, b: a < 10 and b < 10), pass_rate=pr)
-        # print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
+        q_type = "training questions of a+b < 10"
+        print(q_type)
+        pr = 0.8
+        print("size of question subset %s" % (filter_question(lambda a, b: a+b < 10)))
+        all_ok = self.fit_to_subset(filter_question(lambda a, b: a+b < 10), pass_rate=pr)
+        print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
+
+        q_type = "training questions of a<10 and b< 10 and 10 <= a+b"
+        print(q_type)
+        pr = 0.8
+        all_ok = self.fit_to_subset(filter_question(lambda a, b: a<10 and b<10 and a + b >= 10), pass_rate=pr)
+        print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
+
+        q_type = "training questions of a<10 and b<10"
+        print(q_type)
+        pr = 0.8
+        all_ok = self.fit_to_subset(filter_question(lambda a, b: a < 10 and b < 10), pass_rate=pr)
+        print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
 
         q_type = "training questions of a<100 and b<100"
         print(q_type)
@@ -157,7 +158,7 @@ class MultiplicationNPIModel(NPIStep):
         print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
 
         while True:
-            if self.test_and_learn([10, 100, 1000]):
+            if self.test_and_learn([10, 100]):
                 break
 
             q_type = "training questions of ALL"
@@ -173,6 +174,7 @@ class MultiplicationNPIModel(NPIStep):
             print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
 
     def fit_to_subset(self, steps_list, pass_rate=1.0, skip_correct=False):
+        print("fit_to_subset")
         for i in range(10):
             all_ok = self.do_learn(steps_list, 100, pass_rate=pass_rate, skip_correct=skip_correct)
             if all_ok:
@@ -212,6 +214,7 @@ class MultiplicationNPIModel(NPIStep):
         return str(tuple([(k, d[k]) for k in sorted(d)]))
 
     def do_learn(self, steps_list, epoch, pass_rate=1.0, skip_correct=False):
+        print("do_learn")
         multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH)
         npi_runner = TerminalNPIRunner(None, self)
         last_weights = None
@@ -299,15 +302,15 @@ class MultiplicationNPIModel(NPIStep):
         f_add1.add(Dense(FIELD_DEPTH))
         f_add1.add(Activation('softmax', name='softmax_add1'))
 
-        f_mul0 = Sequential(name='f_mul0')
-        f_mul0.add(self.f_enc)
-        f_mul0.add(Dense(FIELD_DEPTH))
-        f_mul0.add(Activation('softmax', name='softmax_mul0'))
-
-        f_mul1 = Sequential(name='f_mul1')
-        f_mul1.add(self.f_enc)
-        f_mul1.add(Dense(FIELD_DEPTH))
-        f_mul1.add(Activation('softmax', name='softmax_mul1'))
+        # f_mul0 = Sequential(name='f_mul0')
+        # f_mul0.add(self.f_enc)
+        # f_mul0.add(Dense(FIELD_DEPTH))
+        # f_mul0.add(Activation('softmax', name='softmax_mul0'))
+        #
+        # f_mul1 = Sequential(name='f_mul1')
+        # f_mul1.add(self.f_enc)
+        # f_mul1.add(Dense(FIELD_DEPTH))
+        # f_mul1.add(Activation('softmax', name='softmax_mul1'))
 
         env_model = Model(self.f_enc.inputs, [f_add0.output, f_add1.output], name="env_model")
         env_model.compile(optimizer='adam', loss=['categorical_crossentropy']*2)
@@ -319,20 +322,21 @@ class MultiplicationNPIModel(NPIStep):
                 for step in steps_dict['steps']:
                     # step.input = env + program + argument
                     x = self.convert_input(step.input)[:2]
-                    env_values = step.input.env.reshape((6, -1))
+                    env_values = step.input.env.reshape((FIELD_ROW, -1))
                     # ??
                     in1 = np.clip(env_values[0].argmax() - 1, 0, 9)
                     in2 = np.clip(env_values[1].argmax() - 1, 0, 9)
                     carry = np.clip(env_values[2].argmax() - 1, 0, 9)
                     y_num = in1 + in2 + carry
-                    mul1 = np.clip(env_values[4].argmax() - 1, 0, 9)
-                    mul2 = np.clip(env_values[5].argmax() - 1, 0, 9)
+                    # mul1 = np.clip(env_values[4].argmax() - 1, 0, 9)
+                    # mul2 = np.clip(env_values[5].argmax() - 1, 0, 9)
                     now = (in1, in2, carry)
-                    if prev == now # ??
+                    ## no need for training? why?
+                    if prev == now:
                         continue
                     prev = now
-                    y0 = to_one_hot_array((y_num %  10)+1, 4)
-                    y1 = to_one_hot_array((y_num // 10)+1, 4)
+                    y0 = to_one_hot_array((y_num %  10)+1, FIELD_DEPTH)
+                    y1 = to_one_hot_array((y_num // 10)+1, FIELD_DEPTH)
                     y = [yy.reshape((self.batch_size, -1)) for yy in [y0, y1]]
                     loss = env_model.train_on_batch(x, y)
                     losses.append(loss)
@@ -344,11 +348,12 @@ class MultiplicationNPIModel(NPIStep):
         multiplication_env.reset()
         self.reset()
         try:
-            ## TODO
             run_npi(multiplication_env, npi_runner, self.program_set.MUL, question)
             if question['correct']:
+                print("answer a question correctly")
                 return True
         except StopIteration:
+            print ("StopIteration")
             pass
         return False
 

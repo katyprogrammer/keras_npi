@@ -1,7 +1,7 @@
 #!/bin/sh
 
 THIS_DIR=$(cd $(dirname $0); pwd)
-DATA_DIR=${THIS_DIR}/../data
+DATA_DIR=${THIS_DIR}/../data/addition
 MODEL_OUTPUT=${1:-${DATA_DIR}/addition.model}
 NUM_TEST=${2:-100}
 

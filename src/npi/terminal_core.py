@@ -3,7 +3,7 @@
 import curses
 import numpy as np
 
-from npi.core import Program, IntegerArguments, NPIStep, StepOutput, StepInput, StepInOut
+from npi.core import Program, IntegerArguments, NPIStep, StepOutput, StepInput, StepInOut, ResultLogger
 
 __author__ = 'k_morishita'
 
@@ -35,8 +35,8 @@ class Screen:
 class Terminal:
     W_TOP = 1
     W_LEFT = 1
-    LOG_WINDOW_HEIGHT = 10
-    LOG_WINDOW_WIDTH = 80
+    LOG_WINDOW_HEIGHT = 40
+    LOG_WINDOW_WIDTH = 160
     INFO_WINDOW_HEIGHT = 10
     INFO_WINDOW_WIDTH = 40
 
@@ -112,7 +112,7 @@ def show_env_to_terminal(terminal, env):
 
 
 class TerminalNPIRunner:
-    def __init__(self, terminal: Terminal, model: NPIStep=None, recording=True, max_depth=10, max_step=1000):
+    def __init__(self, terminal: Terminal, model: NPIStep=None, recording=True, max_depth=10, max_step=1000, result_logger=ResultLogger('result_multiplication.log')):
         self.terminal = terminal
         self.model = model
         self.steps = 0
@@ -122,6 +122,7 @@ class TerminalNPIRunner:
         self.recording = recording
         self.max_depth = max_depth
         self.max_step = max_step
+        self.result_logger = result_logger
 
     def reset(self):
         self.steps = 0
@@ -146,27 +147,40 @@ class TerminalNPIRunner:
 
     def npi_program_interface(self, env, program: Program, arguments: IntegerArguments, depth=0):
         if self.max_depth < depth or self.max_step < self.steps:
+            # self.terminal.add_log("stop iteration becasue it's too deep")
+            # self.terminal.update_info_screen("stop iteration becasue it's too deep")
             raise StopIteration()
 
         self.model.enter_function()
-
+        # self.terminal.add_log("enter function")
         result = StepOutput(0, None, None)
+        # self.terminal.add_log(result)
         while result.r < self.alpha:
+        # while True:
             self.steps += 1
             if self.max_step < self.steps:
+                # self.terminal.add_log("stop iteration becasue there are too many steps")
+                # self.terminal.update_info_screen("stop iteration becasue it's too deep")
                 raise StopIteration()
 
             env_observation = env.get_observation()
+            #self.terminal.add_log(env_observation)
+            # run our model for one step
+            # result is a StepOutput
             result = self.model.step(env_observation, program, arguments.copy())
+            # self.terminal.add_log(result)
+            # what's the intuition of recording
             if self.recording:
                 self.step_list.append(StepInOut(StepInput(env_observation, program, arguments.copy()), result))
             self.display_information(program, arguments, result, depth)
 
             if program.output_to_env:
+                self.terminal.add_log("output_to_env")
                 program.do(env, arguments.copy())
                 self.display_env(env)
             else:
                 if result.program:  # modify original algorithm
+                    self.terminal.add_log("execute sub_program")
                     self.npi_program_interface(env, result.program, result.arguments, depth=depth+1)
 
         self.model.exit_function()

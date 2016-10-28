@@ -42,7 +42,7 @@ class AdditionEnv:
             self.screen[0, -(i+1)] = int(s) + 1
         for i, s in enumerate(reversed("%s" % num2)):
             self.screen[1, -(i+1)] = int(s) + 1
-
+        self.terminal.add_log(screen)
     def move_pointer(self, row, left_or_right):
         if 0 <= row < len(self.pointers):
             self.pointers[row] += 1 if left_or_right == 1 else -1  # LEFT is 0, RIGHT is 1
