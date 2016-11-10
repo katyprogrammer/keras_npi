@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+# anything related to terminal display is here
 import curses
 import numpy as np
 
@@ -50,10 +51,12 @@ class Terminal:
         self.stdscr = stdscr
         self.char_map = char_map or dict((ch, chr(ch)) for ch in range(128))
         self.log_list = []
+        print("finish init")
 
     def init_window(self, width, height):
         # _curses.error: must call initscr() first
         # curses.initscr()
+        print("start init_window")
         curses.curs_set(0)
         border_win = curses.newwin(height + 2, width + 2, self.W_TOP, self.W_LEFT)  # h, w, y, x
         border_win.box()
@@ -67,6 +70,7 @@ class Terminal:
         self.log_window = curses.newwin(self.LOG_WINDOW_HEIGHT, self.LOG_WINDOW_WIDTH,
                                         self.W_TOP + max(height, self.INFO_WINDOW_HEIGHT) + 5, self.W_LEFT)
         self.log_window.refresh()
+        print("finish init_window")
 
     def wait_for_key(self):
         self.stdscr.getch()

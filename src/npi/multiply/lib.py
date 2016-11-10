@@ -368,8 +368,12 @@ def create_questions(num=100, max_number=10000):
         for in2 in range(1, 10):
             questions.append(dict(mul1=in1, mul2=in2))
 
-    for _ in range(num):
-        questions.append(dict(mul1=int(random() * 100), mul2=int(random() * 100)))
+    for in1 in range(10, 30):
+        for in2 in range(10, 30):
+            questions.append(dict(mul1=in1, mul2=in2))
+
+    # for _ in range(num):
+    #     questions.append(dict(mul1=int(random() * 100), mul2=int(random() * 100)))
 
     # for _ in range(100):
     #     questions.append(dict(in1=int(random() * 1000), in2=int(random() * 1000)))

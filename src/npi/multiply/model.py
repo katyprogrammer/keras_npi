@@ -31,6 +31,7 @@ class MultiplicationNPIModel(NPIStep):
     f_enc = None
 
     def __init__(self, system: RuntimeSystem, terminal: Terminal, model_path: str=None, program_set: MultiplicationProgramSet=None):
+        print("init")
         self.system = system
         self.terminal = terminal
         self.model_path = model_path

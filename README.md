@@ -39,7 +39,7 @@ DEBUG=1 sh src/run_create_addition_data.sh
 
 
 
-raining model(addition)
+training model(addition)
 ------------------
 ### Create New Model (-> remove old model if exists and then create new model)
 ```
