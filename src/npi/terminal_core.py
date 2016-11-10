@@ -47,7 +47,6 @@ class Terminal:
 
     def __init__(self, stdscr, char_map=None):
         print(type(stdscr))
-        input()
         self.stdscr = stdscr
         self.char_map = char_map or dict((ch, chr(ch)) for ch in range(128))
         self.log_list = []
@@ -156,7 +155,7 @@ class TerminalNPIRunner:
     def npi_program_interface(self, env, program: Program, arguments: IntegerArguments, depth=0):
         if self.max_depth < depth or self.max_step < self.steps:
             if self.max_step < self.steps:
-                self.terminal.add_log("stop iteration becasue it's too deep")
+                print("stop iteration becasue it's too deep")
             raise StopIteration()
 
         self.model.enter_function()
@@ -167,7 +166,7 @@ class TerminalNPIRunner:
         # while True:
             self.steps += 1
             if self.max_step < self.steps:
-                self.terminal.add_log("stop iteration becasue there are too many steps")
+                print("stop iteration becasue there are too many steps")
                 # self.terminal.update_info_screen("stop iteration becasue it's too deep")
                 raise StopIteration()
 
