@@ -41,6 +41,7 @@ class MultiplicationNPIModel(NPIStep):
         self.load_weights()
 
     def build(self):
+        print("building the multiplication model")
         enc_size = self.size_of_env_observation()
         argument_size = IntegerArguments.size_of_arguments
         input_enc = InputLayer(batch_input_shape=(self.batch_size, enc_size), name='input_enc')
@@ -103,12 +104,14 @@ class MultiplicationNPIModel(NPIStep):
                 l.reset_states()
 
     def compile_model(self, lr=0.0001, arg_weight=1.):
+        print("compiling the multiplication model")
         arg_num = IntegerArguments.max_arg_num
         optimizer = Adam(lr=lr)
         loss = ['binary_crossentropy', 'categorical_crossentropy'] + ['categorical_crossentropy'] * arg_num
         self.model.compile(optimizer=optimizer, loss=loss, loss_weights=[0.25, 0.25] + [arg_weight] * arg_num)
 
     def fit(self, steps_list, epoch=3000):
+        print("fitting the multiplication model")
         """
 
         :param int epoch:
@@ -183,6 +186,7 @@ class MultiplicationNPIModel(NPIStep):
         return False
 
     def test_and_learn(self, num_questions):
+        print("####test_and_learn###")
         for num in num_questions:
             print("test all type of %d questions" % num)
             cc, wc, wrong_questions = self.test_to_subset(create_random_questions(num))
@@ -194,6 +198,7 @@ class MultiplicationNPIModel(NPIStep):
         return True
 
     def test_to_subset(self, questions):
+        print("####test_to_subset###")
         multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH, self.terminal)
         teacher = MultiplicationTeacher(self.program_set)
         npi_runner = TerminalNPIRunner(self.terminal, self)
@@ -215,7 +220,7 @@ class MultiplicationNPIModel(NPIStep):
         return str(tuple([(k, d[k]) for k in sorted(d)]))
 
     def do_learn(self, steps_list, epoch, pass_rate=1.0, skip_correct=False):
-        print("do_learn")
+        print("####do_learn#####")
         multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH, self.terminal)
         npi_runner = TerminalNPIRunner(self.terminal, self)
         last_weights = None
