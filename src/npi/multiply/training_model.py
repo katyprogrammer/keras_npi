@@ -9,20 +9,28 @@ from npi.core import ResultLogger, RuntimeSystem
 from npi.terminal_core import TerminalNPIRunner, Terminal
 
 
-def main(filename: str, model_path: str):
+def main(stdscr, filename: str, model_path: str):
     system = RuntimeSystem()
     program_set = MultiplicationProgramSet()
 
     with open(filename, 'rb') as f:
         steps_list = pickle.load(f)
-
-    npi_model = MultiplicationNPIModel(system, model_path, program_set)
+    terminal = Terminal(stdscr, create_char_map())
+    # TODO what does init window do?
+    terminal.init_window(FIELD_WIDTH, FIELD_ROW)
+    npi_model = MultiplicationNPIModel(system, terminal, model_path, program_set)
     npi_model.fit(steps_list)
 
 
 if __name__ == '__main__':
+
+
     import sys
     DEBUG_MODE = os.environ.get('DEBUG')
-    train_filename = sys.argv[1]
-    model_output = sys.argv[2]
-    main(train_filename, model_output)
+    if DEBUG_MODE:
+        output_filename = None
+    else:
+        output_filename = sys.argv[1]
+    train_filename = sys.argv[2]
+    model_output = sys.argv[3]
+    main(output_filename, train_filename, model_output)

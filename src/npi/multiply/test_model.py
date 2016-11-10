@@ -20,7 +20,7 @@ def main(stdscr, model_path: str, num: int, result_logger: ResultLogger):
     if DEBUG_MODE:
         questions = questions[-num:]
     system = RuntimeSystem(terminal=terminal)
-    npi_model = MultiplicationNPIModel(system, model_path, program_set)
+    npi_model = MultiplicationNPIModel(system, terminal, model_path, program_set)
     npi_runner = TerminalNPIRunner(terminal, npi_model, recording=False)
     npi_runner.verbose = DEBUG_MODE
     correct_count = wrong_count = 0

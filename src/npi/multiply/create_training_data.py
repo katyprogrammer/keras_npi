@@ -25,6 +25,7 @@ def main(stdscr, filename: str, num_of_questions: int, result_logger: ResultLogg
     for data in questions:
         multiplication_env.reset()
         q = copy(data)
+        #
         run_npi(multiplication_env, npi_runner, program_set.MUL, data)
         steps_list.append({"q": q, "steps": npi_runner.step_list})
         result_logger.write(data)

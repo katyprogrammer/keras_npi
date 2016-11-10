@@ -51,6 +51,8 @@ class Terminal:
         self.log_list = []
 
     def init_window(self, width, height):
+        # _curses.error: must call initscr() first
+        # curses.initscr()
         curses.curs_set(0)
         border_win = curses.newwin(height + 2, width + 2, self.W_TOP, self.W_LEFT)  # h, w, y, x
         border_win.box()
@@ -96,6 +98,7 @@ class Terminal:
         self.log_window.refresh()
 
     @staticmethod
+    # TODO what is she trying to say here?
     def ignore_error_add_str(win, y, x, s, attr=curses.A_NORMAL):
         """一番右下に書き込むと例外が飛んでくるけど、漢は黙って無視するのがお作法らしい？"""
         try:
@@ -112,7 +115,7 @@ def show_env_to_terminal(terminal, env):
 
 
 class TerminalNPIRunner:
-    def __init__(self, terminal: Terminal, model: NPIStep=None, recording=True, max_depth=10, max_step=1000, result_logger=ResultLogger('result_multiplication.log')):
+    def __init__(self, terminal: Terminal, model: NPIStep=None, recording=True, max_depth=10, max_step=10000, result_logger=ResultLogger('result_multiplication.log')):
         self.terminal = terminal
         self.model = model
         self.steps = 0
@@ -147,8 +150,8 @@ class TerminalNPIRunner:
 
     def npi_program_interface(self, env, program: Program, arguments: IntegerArguments, depth=0):
         if self.max_depth < depth or self.max_step < self.steps:
-            # self.terminal.add_log("stop iteration becasue it's too deep")
-            # self.terminal.update_info_screen("stop iteration becasue it's too deep")
+            if self.max_step < self.steps:
+                self.terminal.add_log("stop iteration becasue it's too deep")
             raise StopIteration()
 
         self.model.enter_function()
@@ -159,7 +162,7 @@ class TerminalNPIRunner:
         # while True:
             self.steps += 1
             if self.max_step < self.steps:
-                # self.terminal.add_log("stop iteration becasue there are too many steps")
+                self.terminal.add_log("stop iteration becasue there are too many steps")
                 # self.terminal.update_info_screen("stop iteration becasue it's too deep")
                 raise StopIteration()
 
@@ -175,12 +178,12 @@ class TerminalNPIRunner:
             self.display_information(program, arguments, result, depth)
 
             if program.output_to_env:
-                self.terminal.add_log("output_to_env")
+                # self.terminal.add_log("output_to_env")
                 program.do(env, arguments.copy())
                 self.display_env(env)
             else:
                 if result.program:  # modify original algorithm
-                    self.terminal.add_log("execute sub_program")
+                    # self.terminal.add_log("execute sub_program")
                     self.npi_program_interface(env, result.program, result.arguments, depth=depth+1)
 
         self.model.exit_function()

@@ -21,7 +21,7 @@ from npi.multiply.lib import MultiplicationProgramSet, MultiplicationEnv, run_np
     create_random_questions
 from npi.core import NPIStep, Program, IntegerArguments, StepOutput, RuntimeSystem, PG_RETURN, StepInOut, StepInput, \
     to_one_hot_array
-from npi.terminal_core import TerminalNPIRunner
+from npi.terminal_core import TerminalNPIRunner, Terminal
 
 __author__ = 'katy_lee'
 
@@ -30,8 +30,9 @@ class MultiplicationNPIModel(NPIStep):
     model = None
     f_enc = None
 
-    def __init__(self, system: RuntimeSystem, model_path: str=None, program_set: MultiplicationProgramSet=None):
+    def __init__(self, system: RuntimeSystem, terminal: Terminal, model_path: str=None, program_set: MultiplicationProgramSet=None):
         self.system = system
+        self.terminal = terminal
         self.model_path = model_path
         self.program_set = program_set
         self.batch_size = 1
@@ -193,10 +194,10 @@ class MultiplicationNPIModel(NPIStep):
         return True
 
     def test_to_subset(self, questions):
-        multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH)
+        multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH, self.terminal)
         teacher = MultiplicationTeacher(self.program_set)
-        npi_runner = TerminalNPIRunner(None, self)
-        teacher_runner = TerminalNPIRunner(None, teacher)
+        npi_runner = TerminalNPIRunner(self.terminal, self)
+        teacher_runner = TerminalNPIRunner(self.terminal, teacher)
         correct_count = wrong_count = 0
         wrong_steps_list = []
         for idx, question in enumerate(questions):
@@ -215,8 +216,8 @@ class MultiplicationNPIModel(NPIStep):
 
     def do_learn(self, steps_list, epoch, pass_rate=1.0, skip_correct=False):
         print("do_learn")
-        multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH)
-        npi_runner = TerminalNPIRunner(None, self)
+        multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH, self.terminal)
+        npi_runner = TerminalNPIRunner(self.terminal, self)
         last_weights = None
         correct_count = Counter()
         no_change_count = 0

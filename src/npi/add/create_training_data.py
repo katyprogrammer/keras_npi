@@ -1,4 +1,5 @@
 # coding: utf-8
+# create training data for
 import os
 import curses
 import pickle
@@ -14,10 +15,10 @@ def main(stdscr, filename: str, num: int, result_logger: ResultLogger):
     terminal = Terminal(stdscr, create_char_map())
     terminal.init_window(FIELD_WIDTH, FIELD_ROW)
     program_set = AdditionProgramSet()
-    addition_env = AdditionEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH)
+    addition_env = AdditionEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH, terminal)
 
     questions = create_questions(num)
-    teacher = AdditionTeacher(program_set)
+    teacher = AdditionTeacher(program_set, terminal)
     npi_runner = TerminalNPIRunner(terminal, teacher)
     npi_runner.verbose = DEBUG_MODE
     steps_list = []

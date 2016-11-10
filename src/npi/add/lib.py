@@ -13,11 +13,13 @@ class AdditionEnv:
     """
     Environment of Addition
     """
-    def __init__(self, height, width, num_chars):
+    def __init__(self, height, width, num_chars, terminal):
         self.screen = Screen(height, width)
         self.num_chars = num_chars
         self.pointers = [0] * height
         self.reset()
+        self.terminal = terminal
+
 
     def reset(self):
         self.screen.fill(0)
@@ -42,7 +44,7 @@ class AdditionEnv:
             self.screen[0, -(i+1)] = int(s) + 1
         for i, s in enumerate(reversed("%s" % num2)):
             self.screen[1, -(i+1)] = int(s) + 1
-        self.terminal.add_log(screen)
+        # self.terminal.add_log(screen)
     def move_pointer(self, row, left_or_right):
         if 0 <= row < len(self.pointers):
             self.pointers[row] += 1 if left_or_right == 1 else -1  # LEFT is 0, RIGHT is 1
@@ -119,7 +121,7 @@ class AdditionProgramSet:
 
 
 class AdditionTeacher(NPIStep):
-    def __init__(self, program_set: AdditionProgramSet):
+    def __init__(self, program_set: AdditionProgramSet, terminal: Terminal):
         self.pg_set = program_set
         self.step_queue = None
         self.step_queue_stack = []
@@ -131,6 +133,7 @@ class AdditionTeacher(NPIStep):
         self.register_subprogram(program_set.CARRY   , self.pg_carry)
         self.register_subprogram(program_set.LSHIFT  , self.pg_lshift)
         self.register_subprogram(program_set.RSHIFT  , self.pg_rshift)
+        self.terminal = terminal
 
     def reset(self):
         super(AdditionTeacher, self).reset()
@@ -175,6 +178,7 @@ class AdditionTeacher(NPIStep):
     def pg_add(self, env_observation: np.ndarray, arguments: IntegerArguments):
         ret = []
         (in1, in2, carry, output), (a1, a2, a3) = self.decode_params(env_observation, arguments)
+        self.terminal.add_log("add1: {}, add2: {}".format(in1, in2))
         if in1 == 0 and in2 == 0 and carry == 0:
             return None
         ret.append((self.pg_set.ADD1, None))

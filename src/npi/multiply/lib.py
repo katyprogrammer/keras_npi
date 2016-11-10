@@ -32,15 +32,20 @@ class MultiplicationEnv:
     def reset(self):
         self.screen.fill(0)
         self.pointers = [self.screen.width-1] * self.screen.height  # rightmost
+
     # only reset the 1 to 4 th pointers after each addition
     def reset_pointers(self):
         for row in range (0, 4):
-            self.pointer[row] = [self.screen.width-1] * self.screen.height  # rightmost
+            self.pointers[row] = self.screen.width-1  # rightmost
+        self.fill_row_with_zero(2)
+
+    def fill_row_with_zero(self, row):
+        self.screen[row, :].fill(0)
 
     def get_observation(self) -> np.ndarray:
         value = []
         for row in range(len(self.pointers)):
-            self.terminal.add_log(self.screen[row, self.pointers[row]])
+            # self.terminal.add_log(self.screen[row, self.pointers[row]])
             value.append(self.to_one_hot(self.screen[row, self.pointers[row]]))
         # self.terminal.add_log(np.array(value))
         return np.array(value)  # shape of FIELD_ROW * FIELD_DEPTH
@@ -54,6 +59,9 @@ class MultiplicationEnv:
         return ret
 
     def setup_problem(self, mul1, mul2):
+        # set in1 as the value 0
+        for i, s in enumerate(reversed("0")):
+            self.screen[0, -(i+1)] = int(s) + 1
         # set in2 as the value mul1
         for i, s in enumerate(reversed("%s" % mul1)):
             self.screen[1, -(i+1)] = int(s) + 1
@@ -70,25 +78,29 @@ class MultiplicationEnv:
             self.pointers[row] %= self.screen.width
 
     def set_pointer(self, row, index):
+        self.terminal.add_log("@@@@set pointer at index %d" % (index))
         self.pointers[row] = index
     # wirte single digit
     def write(self, row, ch):
         if 0 <= row < self.screen.height and 0 <= ch < self.num_chars:
             self.screen[row, self.pointers[row]] = ch
-    # write the whole row
+    # write the whole row(only used for SUB)
     # write 123
     def write_row(self, row, number):
         for i, s in enumerate(reversed("%s" % number)):
-            self.screen[row, -(i+1)] = int(s) + 1
+            self.screen[row, -(i+1)] = int(s) + 1 # TODO why + 1, is it because they want to reseve for 0 for null value?
+        self.screen[row, -(i+2)] = 0
         self.set_pointer(row, (self.screen.width-i-1))
 
-    def copy_output_row_to_in1_row(self, row, ch):
-        for index in range(0, self.pointers[3]+1):
+    # issues here
+    def copy_output_row_to_in1_row(self):
+        self.terminal.add_log("#####copy cat")
+        for index in reversed(range(self.pointers[3], self.screen.width)):
+            self.terminal.add_log("#index %d" % (index))
             ch = self.screen[3, index]
-            if 0 <= row < self.screen.height and 0 <= ch < self.num_chars:
+            if 0 <= ch < self.num_chars:
                 self.screen[0, index] = ch
-        # set the pointer
-        self.set_pointer(self, 0, self.pointers[3])
+
 
     def get_output(self):
         s = ""
@@ -102,6 +114,7 @@ class MultiplicationEnv:
         for ch in self.screen[5]:
             if ch > 0:
                 s += "%s" % (ch-1)
+        self.terminal.add_log("get %s" % s)
         return int(s or "0")
 
 
@@ -144,6 +157,7 @@ class CopyProgram(Program):
 class SubtractProgram(Program):
     output_to_env = True
     def do(self, env: MultiplicationEnv, args: IntegerArguments):
+        # TODO should be able to deal with whole degree
         env.write_row(5, env.get_mul2()-1)
 
 
@@ -228,7 +242,7 @@ class MultiplicationTeacher(NPIStep):
     def step(self, env_observation: np.ndarray, pg: Program, arguments: IntegerArguments) -> StepOutput:
         if not self.step_queue:
             # self.terminal.add_log("append subprogram")
-            self.terminal.add_log(pg.description_with_args(arguments))
+            # self.terminal.add_log(pg.description_with_args(arguments))
             # put all my following sub_program in to the step_queue, for example, the size is four for mul_program
             self.step_queue = self.sub_program[pg.program_id](env_observation, arguments)
         if self.step_queue:
@@ -245,7 +259,7 @@ class MultiplicationTeacher(NPIStep):
         return ret
 
     @staticmethod
-    # TODO: figure out what's going out here
+
     def convert_for_step_return(step_values: tuple) -> StepOutput:
         #
         if len(step_values) == 3:
@@ -263,8 +277,12 @@ class MultiplicationTeacher(NPIStep):
         self.terminal.add_log("pg_mul")
         ret = []
         (in1, in2, carry, output, mul1, mul2), (a1, a2, a3) = self.decode_params(env_observation, arguments)
-        self.terminal.add_log("mul1: {}, mul2: {}".format(mul1, mul2))
-        if mul1 == 0 or mul2 == 0:
+        self.terminal.add_log("in1: {}, in2: {}, carry: {} mul1: {}, mul2: {}".format(in1-1, in2-1, carry-1, mul1-1, mul2-1))
+        # the zero means the pointer location has nothing, instead of a zero number
+        if mul1 == 0 and mul2 == 0:
+            return None
+
+        if mul1 == 1 or mul2 == 1:
             self.terminal.add_log("mul1 or mul2 is zero")
             return None
 
@@ -278,20 +296,26 @@ class MultiplicationTeacher(NPIStep):
     def pg_add(self, env_observation: np.ndarray, arguments: IntegerArguments):
         self.terminal.add_log("pg_add")
         ret = []
-        (mul1, mul2, in1, in2, carry, output), (a1, a2, a3) = self.decode_params(env_observation, arguments)
+        (in1, in2, carry, output, mul1, mul2), (a1, a2, a3) = self.decode_params(env_observation, arguments)
+
         if in1 == 0 and in2 == 0 and carry == 0:
+            self.terminal.add_log("nothing to add")
             return None
+        self.terminal.add_log("in1: {}, in2: {}, carry: {}".format(in1-1, in2-1, carry-1))
         ret.append((self.pg_set.ADD1, None))
         ret.append((self.pg_set.LSHIFT, None))
         return ret
 
     def pg_add1(self, env_observation: np.ndarray, arguments: IntegerArguments):
+        self.terminal.add_log("pg_add1")
         ret = []
         p = self.pg_set
-        (mul1, mul2, in1, in2, carry, output), (a1, a2, a3) = self.decode_params(env_observation, arguments)
+        (in1, in2, carry, output, mul1, mul2), (a1, a2, a3) = self.decode_params(env_observation, arguments)
         result = self.sum_ch_list([in1, in2, carry])
+        self.terminal.add_log("in1: {}, in2: {}".format(in1-1, in2-1))
         ret.append((p.WRITE, (p.WRITE.WRITE_TO_OUTPUT, result % 10)))
         if result > 9:
+            self.terminal.add_log("carry!")
             ret.append((p.CARRY, None))
     ##### TODO Yo! PG_RETURN  here! because this program will for sure terminate, we don't do add1 on the same position again
         ret[-1] = (PG_RETURN, ret[-1][0], ret[-1][1])
@@ -337,7 +361,7 @@ def create_char_map():
     char_map[0] = ' '
     return char_map
 
-# num is given at script
+# num is given at script num is the number of random generated questions
 def create_questions(num=100, max_number=10000):
     questions = []
     for in1 in range(1, 10):
@@ -350,10 +374,11 @@ def create_questions(num=100, max_number=10000):
     # for _ in range(100):
     #     questions.append(dict(in1=int(random() * 1000), in2=int(random() * 1000)))
     # ??
-    questions += [
-        dict(mul1=4, mul2=4),
-    ]
-    questions = [ dict(mul1=3, mul2=4),] + questions
+    # questions += [
+    #     dict(mul1=4, mul2=4),
+    # ]
+    # frist questions in the question
+    questions = [ dict(mul1=12, mul2=12),] + questions
     # bigger size questions
     # questions += create_random_questions(num=num, max_number=max_number)
     return questions
@@ -365,13 +390,14 @@ def create_random_questions(num=100, max_number=1000):
         questions.append(dict(mul1=int(random() * max_number), mul2=int(random() * max_number)))
     return questions
 
-
+# run_npi(multiplication_env, npi_runner, self.program_set.MUL, question)
 def run_npi(multiplication_env, npi_runner, program, data):
     data['expect'] = data['mul1'] * data['mul2']
 
     multiplication_env.setup_problem(data['mul1'], data['mul2'])
 
     npi_runner.reset()
+    # TODO bug here: display_env
     npi_runner.display_env(multiplication_env, force=True)
     npi_runner.npi_program_interface(multiplication_env, program, IntegerArguments())
 
