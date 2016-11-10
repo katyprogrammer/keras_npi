@@ -23,8 +23,9 @@ setup
 ```
 pip install -r requirements.txt
 ```
+##  Task: addition
 
-create training dataset
+create training dataset(addition)
 -----------------------
 ### create training dataset
 ```
@@ -36,7 +37,9 @@ sh src/run_create_addition_data.sh
 DEBUG=1 sh src/run_create_addition_data.sh
 ```
 
-training model
+
+
+raining model(addition)
 ------------------
 ### Create New Model (-> remove old model if exists and then create new model)
 ```
@@ -48,7 +51,9 @@ NEW_MODEL=1 sh src/run_train_addition_model.sh
 sh src/run_train_addition_model.sh
 ```
 
-test model
+
+
+test model(addition)
 ----------
 ### check the model accuracy
 ```
@@ -58,4 +63,31 @@ sh src/run_test_addition_model.sh
 ### check the model accuracy with showing steps on terminal
 ```
 DEBUG=1 sh src/run_test_addition_model.sh
+```
+
+##  Task: multiplication
+
+create training dataset(multiplication)
+-----------------------
+### create training dataset(up to two digits, it takes about 10 mins to generate all the data, be patient)
+```
+sh src/run_create_multiplication_data.sh
+```
+
+### create training dataset with showing steps on terminal
+```
+DEBUG=1 sh src/run_create_multiplication_data.sh
+```
+
+
+training model(multiplication)
+------------------
+### Create New Model (-> remove old model if exists and then create new model)
+```
+NEW_MODEL=1 sh src/run_train_multiplication_model.sh
+```
+
+### Training Existing Model (-> if a model exists, use the model)
+```
+sh src/run_train_multiplication_model.sh
 ```
