@@ -1,4 +1,5 @@
 # coding: utf-8
+# training model for multiplication
 import os
 import pickle
 
@@ -16,7 +17,7 @@ def main(stdscr, filename: str, model_path: str):
     with open(filename, 'rb') as f:
         steps_list = pickle.load(f)
     terminal = Terminal(stdscr, create_char_map())
-    # TODO what does init window do?
+    # TODO what does init window go wroung with error "must call initscr() first"?
     terminal.init_window(FIELD_WIDTH, FIELD_ROW)
     npi_model = MultiplicationNPIModel(system, terminal, model_path, program_set)
     npi_model.fit(steps_list)
@@ -33,4 +34,5 @@ if __name__ == '__main__':
         output_filename = sys.argv[1]
     train_filename = sys.argv[2]
     model_output = sys.argv[3]
-    main(output_filename, train_filename, model_output)
+    curses.wrapper(main, output_filename, train_filename, model_output)
+    #vmain(output_filename, train_filename, model_output)

@@ -69,7 +69,7 @@ DEBUG=1 sh src/run_test_addition_model.sh
 
 create training dataset(multiplication)
 -----------------------
-### create training dataset(up to two digits, it takes about 10 mins to generate all the data, be patient)
+### create training dataset(up to two digits, it takes a few mins to generate all the data, be patient)
 ```
 sh src/run_create_multiplication_data.sh
 ```

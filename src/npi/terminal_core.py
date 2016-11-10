@@ -46,6 +46,7 @@ class Terminal:
 
     def __init__(self, stdscr, char_map=None):
         print(type(stdscr))
+        input()
         self.stdscr = stdscr
         self.char_map = char_map or dict((ch, chr(ch)) for ch in range(128))
         self.log_list = []
