@@ -1,0 +1,456 @@
+python npi/multiply/training_model.py training.log /Users/katy/workspace/keras_npi_forked/src/../data/multiplication/train_up_to_two_digits.pkl /Users/katy/workspace/keras_npi_forked/src/../data/multiplication/multiplication.model
+[?1049h[1;25r(B[m[4l[?7h[?1h=<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 2, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 4, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 2, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 6, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 3, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 8, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 4, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=WRITE> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=CARRY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=WRITE> arg=<IA: [0, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 6, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 2, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 7, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 4, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 8, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 6, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 9, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 8, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=WRITE> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=CARRY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=WRITE> arg=<IA: [0, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=WRITE> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=CARRY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=WRITE> arg=<IA: [0, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 2, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 2, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 3, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=SUB> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 4, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 4, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=ADD1> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=<Program: name=WRITE> arg=<IA: [1, 1, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=LSHIFT> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [1, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=MOVE_PTR> arg=<IA: [2, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=<Program: name=MOVE_PTR> arg=<IA: [3, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=COPY> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=0 pg=<Program: name=RESET_PTR> arg=<IA: [0, 0, 0]>>
+<StepOutput: r=1 pg=None arg=None>
+<StepOutput: r=1 pg=None arg=None>
+press enter to continue

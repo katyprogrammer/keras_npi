@@ -91,7 +91,8 @@ class StepInOut:
     def __init__(self, input: StepInput, output: StepOutput):
         self.input = input
         self.output = output
-
+    def __str__(self):
+        return str(self.output)
 
 class ResultLogger:
     def __init__(self, filename):

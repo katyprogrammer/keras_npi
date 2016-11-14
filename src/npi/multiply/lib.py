@@ -1,8 +1,7 @@
 # coding: utf-8
-from random import random
-
 import numpy as np
 
+from random import random
 from npi.core import Program, IntegerArguments, StepOutput, NPIStep, PG_CONTINUE, PG_RETURN, ResultLogger
 from npi.terminal_core import Screen, Terminal
 
@@ -65,12 +64,16 @@ class MultiplicationEnv:
         # set in2 as the value mul1
         for i, s in enumerate(reversed("%s" % mul1)):
             self.screen[1, -(i+1)] = int(s) + 1
-        # set
+        # set mul1 and mul2
         for i, s in enumerate(reversed("%s" % mul1)):
             self.screen[4, -(i+1)] = int(s) + 1
+        self.set_pointer(4, (self.screen.width-i-1))
         for i, s in enumerate(reversed("%s" % mul2)):
             self.screen[5, -(i+1)] = int(s) + 1
-        # self.terminal.add_log(self.screen)
+        self.set_pointer(5, (self.screen.width-i-1))
+        # set the pointer of mul1 and mu2 so that we don't interpret it as zero when
+        # decode_params
+
 
     def move_pointer(self, row, left_or_right):
         if 0 <= row < len(self.pointers):
@@ -117,6 +120,14 @@ class MultiplicationEnv:
         self.terminal.add_log("get %s" % s)
         return int(s or "0")
 
+    def get_row(self, row):
+        s = ""
+        for ch in self.screen[row]:
+            if ch > 0:
+                s += "%s" % (ch-1)
+        self.terminal.add_log("get %s" % s)
+        return int(s or "0")
+
 
 class MovePtrProgram(Program):
     output_to_env = True
@@ -157,8 +168,13 @@ class CopyProgram(Program):
 class SubtractProgram(Program):
     output_to_env = True
     def do(self, env: MultiplicationEnv, args: IntegerArguments):
-        # TODO should be able to deal with whole degree
         env.write_row(5, env.get_mul2()-1)
+
+class GetNumberProgram(Program):
+    output_to_env = True
+    def do(self, env: MultiplicationEnv, args: IntegerArguments):
+        row = args.decode_at(0)
+        env.get_row(row)
 
 
 class MultiplicationProgramSet: # includes the addition Programset
@@ -228,10 +244,10 @@ class MultiplicationTeacher(NPIStep):
         self.sub_program[pg.program_id] = method
 
     @staticmethod
-    # TODO: stack_queue is for one program right?
+
     def decode_params(env_observation: np.ndarray, arguments: IntegerArguments):
         return env_observation.argmax(axis=1), arguments.decode_all()
-
+    # store previous environment on step_queue_stack
     def enter_function(self):
         self.step_queue_stack.append(self.step_queue or [])
         self.step_queue = None
@@ -240,20 +256,23 @@ class MultiplicationTeacher(NPIStep):
         self.step_queue = self.step_queue_stack.pop()
 
     def step(self, env_observation: np.ndarray, pg: Program, arguments: IntegerArguments) -> StepOutput:
+        # if not self.step_queue implies that it's the first time entering this program
         if not self.step_queue:
             # self.terminal.add_log("append subprogram")
             # self.terminal.add_log(pg.description_with_args(arguments))
             # put all my following sub_program in to the step_queue, for example, the size is four for mul_program
+            # we execute the current program, it should append subprogram/ append nothing
             self.step_queue = self.sub_program[pg.program_id](env_observation, arguments)
+        # if self.step_queue implies that there are subprogram left for me to execute
         if self.step_queue:
-            # self.terminal.add_log("hello")
-            # If there are sub_programs that I need to execute
+            # output should be execute the first subprogram in the queue
             ret = self.convert_for_step_return(self.step_queue[0])
             # self.terminal.add_log("get subprogram Stepoutput")
             # self.terminal.add_log(ret)
             # remove the subprogram that I have execute
             self.step_queue = self.step_queue[1:]
         else:
+            self.terminal.add_log("PG_RETURN")
             ret = StepOutput(PG_RETURN, None, None)
             # if there is no sub_prgorams that I need to execute
         return ret
@@ -261,9 +280,9 @@ class MultiplicationTeacher(NPIStep):
     @staticmethod
 
     def convert_for_step_return(step_values: tuple) -> StepOutput:
-        #
+
         if len(step_values) == 3:
-            # this is the last step in my primitive function, with the first item specifying PG_RETURN
+            # this is the StepOutput on the end of primitive program, with the first item specifying PG_RETURN
             return StepOutput(step_values[0], step_values[1], IntegerArguments(step_values[2]))
         else:
 
@@ -272,7 +291,7 @@ class MultiplicationTeacher(NPIStep):
     @staticmethod
     def pg_primitive(env_observation: np.ndarray, arguments: IntegerArguments):
         return None
-
+    # TODO solve the mul(0, 0, 0) -> mul(0, 0, 0) bug
     def pg_mul(self, env_observation: np.ndarray, arguments: IntegerArguments):
         self.terminal.add_log("pg_mul")
         ret = []
@@ -281,7 +300,7 @@ class MultiplicationTeacher(NPIStep):
         # the zero means the pointer location has nothing, instead of a zero number
         if mul1 == 0 and mul2 == 0:
             return None
-
+        # getting 1 out of it means mul1 or mul2 is 0
         if mul1 == 1 or mul2 == 1:
             self.terminal.add_log("mul1 or mul2 is zero")
             return None
@@ -317,7 +336,7 @@ class MultiplicationTeacher(NPIStep):
         if result > 9:
             self.terminal.add_log("carry!")
             ret.append((p.CARRY, None))
-    ##### TODO Yo! PG_RETURN  here! because this program will for sure terminate, we don't do add1 on the same position again
+    #####Yo! PG_RETURN  here! because this program will for sure terminate, we don't do add1 on the same position again
         ret[-1] = (PG_RETURN, ret[-1][0], ret[-1][1])
         return ret
 
@@ -340,6 +359,7 @@ class MultiplicationTeacher(NPIStep):
     def pg_lshift(self, env_observation: np.ndarray, arguments: IntegerArguments):
         ret = []
         p = self.pg_set
+        # (program, program_arguments)
         ret.append((p.MOVE_PTR, (p.MOVE_PTR.PTR_IN1, p.MOVE_PTR.TO_LEFT)))
         ret.append((p.MOVE_PTR, (p.MOVE_PTR.PTR_IN2, p.MOVE_PTR.TO_LEFT)))
         ret.append((p.MOVE_PTR, (p.MOVE_PTR.PTR_CARRY, p.MOVE_PTR.TO_LEFT)))

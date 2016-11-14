@@ -24,7 +24,9 @@ class AdditionEnv:
     def reset(self):
         self.screen.fill(0)
         self.pointers = [self.screen.width-1] * self.screen.height  # rightmost
-
+    # the get_observation function returns the observation of numbers of each pointer, so to speak,
+    # we can only see the numbers that our pointer is at, but this is gonna cause a trouble becasue 10
+    # with pointer at the second position will return zero
     def get_observation(self) -> np.ndarray:
         value = []
         for row in range(len(self.pointers)):

@@ -129,6 +129,7 @@ class MultiplicationNPIModel(NPIStep):
             return sub_steps_list
 
         # self.print_weights()
+        # TODO adjust environment encoding
         if not self.weight_loaded:
             self.train_f_enc(filter_question(lambda a, b: 10 <= a < 100 and 10 <= b < 100), epoch=100)
         self.f_enc.trainable = False
@@ -140,26 +141,26 @@ class MultiplicationNPIModel(NPIStep):
         q_type = "training questions of a+b < 10"
         print(q_type)
         pr = 0.8
-        print("size of question subset %s" % (filter_question(lambda a, b: a+b < 10)))
+        print("size of question subset %s" % (filter_question(lambda a, b: a+b < 10 and a!=0 and b!=0)))
         all_ok = self.fit_to_subset(filter_question(lambda a, b: a+b < 10), pass_rate=pr)
         print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
 
         q_type = "training questions of a<10 and b< 10 and 10 <= a+b"
         print(q_type)
         pr = 0.8
-        all_ok = self.fit_to_subset(filter_question(lambda a, b: a<10 and b<10 and a + b >= 10), pass_rate=pr)
+        all_ok = self.fit_to_subset(filter_question(lambda a, b: a<10 and b<10 and a + b >= 10  and a!=0 and b!=0) , pass_rate=pr)
         print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
 
         q_type = "training questions of a<10 and b<10"
         print(q_type)
         pr = 0.8
-        all_ok = self.fit_to_subset(filter_question(lambda a, b: a < 10 and b < 10), pass_rate=pr)
+        all_ok = self.fit_to_subset(filter_question(lambda a, b: a < 10 and b < 10 and a!=0 and b!=0), pass_rate=pr)
         print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
 
         q_type = "training questions of a<100 and b<100"
         print(q_type)
         pr = 0.8
-        all_ok = self.fit_to_subset(filter_question(lambda a, b: a < 100 and b < 100), pass_rate=pr)
+        all_ok = self.fit_to_subset(filter_question(lambda a, b: a < 100 and b < 100 and a!=0 and b!=0), pass_rate=pr)
         print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
 
         while True:
@@ -179,7 +180,7 @@ class MultiplicationNPIModel(NPIStep):
             print("%s is pass_rate >= %s: %s" % (q_type, pr, all_ok))
 
     def fit_to_subset(self, steps_list, pass_rate=1.0, skip_correct=False):
-        print("fit_to_subset")
+        self.terminal.add_log("fit_to_subset")
         for i in range(10):
             all_ok = self.do_learn(steps_list, 100, pass_rate=pass_rate, skip_correct=skip_correct)
             if all_ok:
@@ -221,8 +222,12 @@ class MultiplicationNPIModel(NPIStep):
         return str(tuple([(k, d[k]) for k in sorted(d)]))
 
     def do_learn(self, steps_list, epoch, pass_rate=1.0, skip_correct=False):
-        print("####do_learn#####")
-        multiplication_env= MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH, self.terminal)
+        self.terminal.add_log("####do_learn#####")
+        # for step in steps_list:
+        #     for s in step["steps"]:
+        #         #print(s)
+        #         #self.terminal.add_log(s)
+        multiplication_env = MultiplicationEnv(FIELD_ROW, FIELD_WIDTH, FIELD_DEPTH, self.terminal)
         npi_runner = TerminalNPIRunner(self.terminal, self)
         last_weights = None
         correct_count = Counter()
@@ -256,7 +261,10 @@ class MultiplicationNPIModel(NPIStep):
                 xs = []
                 ys = []
                 ws = []
+                self.temrinal.add_log("a question")
                 for step in steps:
+                    self.temrinal.add_log(str(step.input))
+                    self.temrinal.add_log(str(step.output))
                     xs.append(self.convert_input(step.input))
                     y, w = self.convert_output(step.output)
                     ys.append(y)
@@ -297,7 +305,7 @@ class MultiplicationNPIModel(NPIStep):
         self.compile_model(learning_rate, arg_weight=arg_weight)
 
     def train_f_enc(self, steps_list, epoch=50):
-        ##### what's add0 and add1?
+        # TODO  what's add0 and add1?
         print("training f_enc")
         f_add0 = Sequential(name='f_add0')
         f_add0.add(self.f_enc)
@@ -321,7 +329,7 @@ class MultiplicationNPIModel(NPIStep):
 
         env_model = Model(self.f_enc.inputs, [f_add0.output, f_add1.output], name="env_model")
         env_model.compile(optimizer='adam', loss=['categorical_crossentropy']*2)
-
+        # TODO adjsut the model
         for ep in range(epoch):
             losses = []
             for idx, steps_dict in enumerate(steps_list):

@@ -17,14 +17,18 @@ def main(stdscr, output_filename, filename: str, model_path: str):
 
     with open(filename, 'rb') as f:
         steps_list = pickle.load(f)
+    for step in steps_list:
+        for s in step["steps"]:
+            print(s)
+        input("press enter to continue")
+    ## for debug purpose
     terminal = Terminal(stdscr, create_char_map())
     terminal.init_window(FIELD_WIDTH, FIELD_ROW)
     npi_model = MultiplicationNPIModel(system, terminal, model_path, program_set)
-    npi_model.fit(steps_list)
+    # npi_model.fit(steps_list)
 
 
 if __name__ == '__main__':
-
 
     import sys
     DEBUG_MODE = os.environ.get('DEBUG')

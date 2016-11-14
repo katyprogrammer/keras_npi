@@ -117,9 +117,9 @@ def show_env_to_terminal(terminal, env):
         terminal.update_main_window_attr(env.screen, i, p, curses.A_REVERSE)
     terminal.refresh_main_window()
 
-
+# reset max_depth and max_step
 class TerminalNPIRunner:
-    def __init__(self, terminal: Terminal, model: NPIStep=None, recording=True, max_depth=10, max_step=10000, result_logger=ResultLogger('result_multiplication.log')):
+    def __init__(self, terminal: Terminal, model: NPIStep=None, recording=True, max_depth=100, max_step=10000, result_logger=ResultLogger('result_multiplication.log')):
         self.terminal = terminal
         self.model = model
         self.steps = 0
@@ -155,7 +155,11 @@ class TerminalNPIRunner:
     def npi_program_interface(self, env, program: Program, arguments: IntegerArguments, depth=0):
         if self.max_depth < depth or self.max_step < self.steps:
             if self.max_step < self.steps:
-                print("stop iteration becasue it's too deep")
+                print("stop iteration becasue there are too many steps")
+                self.terminal.add_log("stop iteration becasue it's too deep")
+            if self.max_depth < depth:
+                print("stop iteration becasue there are too many steps")
+                self.terminal.add_log("stop iteration becasue it's too deep")
             raise StopIteration()
 
         self.model.enter_function()
@@ -163,18 +167,18 @@ class TerminalNPIRunner:
         result = StepOutput(0, None, None)
         # self.terminal.add_log(result)
         while result.r < self.alpha:
-        # while True:
+            self.terminal.add_log("in a function")
             self.steps += 1
             if self.max_step < self.steps:
                 print("stop iteration becasue there are too many steps")
-                # self.terminal.update_info_screen("stop iteration becasue it's too deep")
+                self.terminal.add_log("stop iteration becasue there are too many steps")
                 raise StopIteration()
-
             env_observation = env.get_observation()
             #self.terminal.add_log(env_observation)
             # run our model for one step
             # result is a StepOutput
             result = self.model.step(env_observation, program, arguments.copy())
+            self.terminal.add_log("after excuting funciton")
             # self.terminal.add_log(result)
             # what's the intuition of recording
             if self.recording:
@@ -186,10 +190,11 @@ class TerminalNPIRunner:
                 program.do(env, arguments.copy())
                 self.display_env(env)
             else:
+                self.terminal.add_log(str(program))
                 if result.program:  # modify original algorithm
                     # self.terminal.add_log("execute sub_program")
                     self.npi_program_interface(env, result.program, result.arguments, depth=depth+1)
-
+        self.terminal.add_log("exit funtion")
         self.model.exit_function()
 
     def wait(self):
